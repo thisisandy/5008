@@ -1,0 +1,256 @@
+@startuml bird.png
+
+package "category.Bird" {
+    interface IBird {
+        + getType(): BirdType
+        + getDefiningCharacteristic(): String
+        + getNumberOfWings(): int
+        + getPreferredFood(): List<String>
+    }
+
+    abstract class Bird {
+        {abstract} -String definingCharacteristic
+        {abstract} -int numberOfWings
+        {abstract} -EnumSet<Food> preferredFood
+        {abstract} +Bird(String definingCharacteristic, int numberOfWings, EnumSet<Food> preferredFood)
+        {abstract} +String getDefiningCharacteristic()
+        {abstract} +int getNumberOfWings()
+        {abstract} +EnumSet<Food> getPreferredFood()
+        {abstract} +String toString()
+    }
+
+    class BirdDescriptor {
+        +String describe(Bird bird)
+    }
+
+    enum BirdType {
+        HAWK,
+        EAGLE,
+        OSPREY,
+        KIWI,
+        MOA,
+        ROSE_RING_PARAKEET,
+        GRAY_PARROT,
+        SULFUR_CRESTED_COCKATOO,
+        GREAT_AUK,
+        HORNED_PUFFIN,
+        AFRICAN_JACANA,
+        DUCK,
+        SWAN,
+        GEESE
+    }
+
+    abstract class Flightless extends Bird {
+        {abstract} +Flightless(EnumSet<Food> preferredFood)
+    }
+
+    abstract class Prey extends Bird {
+        {abstract} +Prey(int numberOfWings, EnumSet<Food> preferredFood)
+    }
+
+    abstract class ShoreBird extends Bird {
+        {abstract} +ShoreBird(EnumSet<Food> preferredFood)
+    }
+
+    abstract class Waterfowl extends Bird {
+        {abstract} +Waterfowl(EnumSet<Food> preferredFood)
+    }
+
+    class Emus extends Flightless {
+        {static} +final BirdType type
+        +Emus()
+    }
+
+    class Kiwi extends Flightless {
+        {static} +final BirdType type
+        +Kiwi()
+    }
+
+    class Moa extends Flightless {
+        {static} +final BirdType type
+        +Moa()
+    }
+
+    class Owl extends Bird {
+        +Owl(EnumSet<Food> preferredFood)
+    }
+
+    class GrayParrot extends Parrot {
+        {static} +BirdType type
+        +GrayParrot(int vocabularySize, String favoriteSaying)
+    }
+
+    class RoseRingParakeet extends Parrot {
+        {static} +BirdType type
+        +RoseRingParakeet(int vocabularySize, String favoriteSaying, EnumSet<Food> preferredFood)
+    }
+
+    class SulfurCrestedCockatoo extends Parrot {
+        {static} +final BirdType type
+        +SulfurCrestedCockatoo(int vocabularySize, String favoriteSaying)
+    }
+
+    class Pigeon extends Bird {
+        +Pigeon(EnumSet<Food> preferredFood)
+    }
+
+    class Eagle extends Prey {
+        {static} +final BirdType type
+        +Eagle()
+    }
+
+    class Hawk extends Prey {
+        {static} +final BirdType type
+        +Hawk()
+    }
+
+    class Osprey extends Prey {
+        {static} +final BirdType type
+        +Osprey()
+    }
+
+    class AfricanJacana extends ShoreBird {
+        {static} +final BirdType type
+        +AfricanJacana()
+    }
+
+    class GreatAuk extends ShoreBird {
+        {static} +final BirdType type
+        +GreatAuk()
+    }
+
+    class HornedPuffin extends ShoreBird {
+        {static} +final BirdType type
+        +HornedPuffin()
+    }
+
+    class Duck extends Waterfowl {
+        {static} +final BirdType type
+        +Duck()
+    }
+
+    class Geese extends Waterfowl {
+        {static} +final BirdType type
+        +Geese()
+    }
+
+    class Swan extends Waterfowl {
+        {static} +final BirdType type
+        +Swan()
+    }
+}
+
+package "category.Aviary" {
+    class Aviary {
+        -List<Bird> birds
+        +Aviary()
+        +List<Bird> getBirds()
+        +void addBird(Bird bird)
+        +String toString()
+    }
+
+    class AviaryDescriptor {
+        +String describe(Aviary aviary)
+    }
+
+    class AviaryRule {
+        +boolean canRescueBird(Aviary aviary, Bird bird)
+        -boolean hasSpace(Aviary aviary)
+        -boolean isCompatible(Aviary aviary, Bird bird)
+    }
+}
+
+package "category.Conservatory" {
+    class Conservatory {
+        -List<Aviary> aviaries
+        -List<Bird> birds
+        -ExtinguishBirdManager extinguishBirdManager
+        -FoodManager foodManager
+        +Conservatory()
+        +boolean rescueBird(Bird bird)
+        +int getNumberOfBirds()
+        +int getNumberOfAviaries()
+        +Aviary getAviaryOfBird(Bird bird)
+        +String listAviaries()
+        +String listBirds()
+    }
+}
+
+package "category.Extinguish" {
+    class ExtinguishBirdManager {
+        +static ExtinguishBirdManager getInstance()
+        +boolean isExtinguishBird(Bird bird)
+        +void addExtinguishBird(Class<? extends Bird> bird)
+        +void removeExtinguishBird(Class<? extends Bird> bird)
+    }
+}
+
+package "category.Food" {
+    enum Food {
+        BERRIES,
+        SEEDS,
+        FRUIT,
+        INSECTS,
+        OTHER_BIRDS,
+        EGGS,
+        SMALL_MAMMALS,
+        FISH,
+        BUDS,
+        LARVAE,
+        AQUATIC_INVERTEBRATES,
+        NUTS,
+        VEGETATION
+    }
+
+    class FoodManager {
+        -Map<BirdType, Integer> foodMap
+        +void addFood(Bird bird)
+        +int getFoodCount(BirdType type)
+        +int getTotalFoodCount()
+    }
+}
+
+
+
+
+IBird <|-- Bird
+BirdType <|-- Bird
+Flightless --|> Bird
+Prey --|> Bird
+ShoreBird --|> Bird
+Waterfowl --|> Bird
+Parrot --|> Bird
+Aviary -- Bird
+Conservatory -- ExtinguishBirdManager
+Conservatory -- FoodManager
+Conservatory -- Aviary
+AviaryDescriptor -- Aviary
+AviaryRule -- Aviary
+ExtinguishBirdManager --> Bird : manages
+Food -- Bird : is preferred by
+FoodManager -- BirdType : manages
+Conservatory --> ExtinguishBirdManager : uses
+Conservatory --> FoodManager : uses
+AviaryDescriptor --> Aviary : describes
+Conservatory --> AviaryDescriptor : uses
+AviaryRule --> Aviary : applies rules to
+BirdDescriptor -- Bird : describes
+
+package test {
+    class Test {
+        +testAddBirdToAviary(): void
+        +testDescribeAviary(): void
+        +testAviaryCompatibility(): void
+        +testExtinguishBirdManagement(): void
+        +testFoodManagement(): void
+        +testRescueBirdInConservatory(): void
+    }
+}
+Test -- Aviary : testAddBirdToAviary()
+Test -- AviaryDescriptor : testDescribeAviary()
+Test -- AviaryRule : testAviaryCompatibility()
+Test -- ExtinguishBirdManager : testExtinguishBirdManagement()
+Test -- FoodManager : testFoodManagement()
+Test -- Conservatory : testRescueBirdInConservatory()
+
+@enduml
