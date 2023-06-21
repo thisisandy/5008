@@ -1,0 +1,3 @@
+/Users/andyhu/project/5008/cmake-build-debug/CMakeFiles/5008.dir
+/Users/andyhu/project/5008/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/andyhu/project/5008/cmake-build-debug/CMakeFiles/rebuild_cache.dir
