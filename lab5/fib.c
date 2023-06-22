@@ -1,5 +1,5 @@
-
-
+#include <stdio.h>
+#include <stdlib.h>
 
 int fib(int n){
     if (n == 0 || n == 1){
