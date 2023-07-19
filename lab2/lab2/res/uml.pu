@@ -1,0 +1,64 @@
+Interface IEquippable
+    + equip(): void
+    + unequip(): void
+
+Interface ICombinable
+    + combine(Item): Item
+
+Class Item
+    - name: String
+    - attackStrength: int
+    - defenseStrength: int
+
+    + getName(): String
+    + getAttackStrength(): int
+    + getDefenseStrength(): int
+    + setName(String): void
+    + setAttackStrength(int): void
+    + setDefenseStrength(int): void
+
+Class HeadGear extends Item implements IEquippable
+
+Class HandGear extends Item implements IEquippable
+    + calculateTotalAttackStrength(): int
+
+Class Footwear extends Item implements IEquippable
+    + calculateTotalAttackDefenseStrength(): int
+
+Class Character
+    - baseAttack: int
+    - baseDefense: int
+    - inventory: Inventory
+
+    + equipItem(Item): void
+    + unequipItem(Item): void
+    + calculateTotalAttack(): int
+    + calculateTotalDefense(): int
+    + canEquipMoreItems(): boolean
+
+Class Human extends Character
+
+Class Alien extends Character
+
+Class Inventory
+    - slots: Slot[]
+
+    + addItem(Item): void
+    + removeItem(Item): void
+    + isFull(): boolean
+    + initializeSlots(Character): void
+
+Class Slot
+    - itemType: String
+    - maxItems: int
+    - items: Item[]
+
+    + addItem(Item): void
+    + removeItem(Item): void
+    + isFull(): boolean
+
+Class ItemCombiner implements ICombinable
+    + combineItems(Item, Item): Item
+
+Class ItemFactory
+    + createItem(String, int, int): Item
