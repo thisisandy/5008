@@ -1,2 +1,4 @@
-package PACKAGE_NAME;public interface WithHead {
+public interface WithHead extends WithBodyPart{
+    public int getHeadCount();
 }
+

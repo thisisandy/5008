@@ -13,9 +13,6 @@ Class Item
     + getName(): String
     + getAttackStrength(): int
     + getDefenseStrength(): int
-    + setName(String): void
-    + setAttackStrength(int): void
-    + setDefenseStrength(int): void
 
 Class HeadGear extends Item implements IEquippable
 
@@ -30,8 +27,6 @@ Class Character
     - baseDefense: int
     - inventory: Inventory
 
-    + equipItem(Item): void
-    + unequipItem(Item): void
     + calculateTotalAttack(): int
     + calculateTotalDefense(): int
     + canEquipMoreItems(): boolean
@@ -47,6 +42,8 @@ Class Inventory
     + removeItem(Item): void
     + isFull(): boolean
     + initializeSlots(Character): void
+    + equipItem(Item): void
+    + unequipItem(Item): void
 
 Class Slot
     - itemType: String
@@ -61,4 +58,4 @@ Class ItemCombiner implements ICombinable
     + combineItems(Item, Item): Item
 
 Class ItemFactory
-    + createItem(String, int, int): Item
+    + createItem(String, String, int, int): Item

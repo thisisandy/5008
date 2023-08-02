@@ -1,2 +1,3 @@
-package PACKAGE_NAME;public interface WithLegs {
+public interface WithLegs extends WithBodyPart{
+    public int getLegCount();
 }
